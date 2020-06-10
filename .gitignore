@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+.idea
 data/205087_450106_bundle_archive.zip
 pretrained/*
 checkpoints/*
