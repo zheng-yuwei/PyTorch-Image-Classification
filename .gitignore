@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+data/205087_450106_bundle_archive.zip
+pretrained/*
+checkpoints/*
+!pretrained/README.md
+!checkpoints/README.md
