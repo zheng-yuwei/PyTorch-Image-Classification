@@ -7,7 +7,7 @@ softmax交叉熵损失函数，分类index label和one hot label形式都支持
 import torch
 from torch import nn
 
-from criterions.utils import decode_onehot_labels
+from criterions.utils import decode_to_onehot
 
 
 class CrossEntropyLoss(nn.Module):
