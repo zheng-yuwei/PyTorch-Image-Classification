@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File grad_cam.py
-@author: ZhengYuwei
+
 Grad-CAM 可视化
 """
 import numpy as np

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File __init__.py.py
-@author: ZhengYuwei
+
 可视化工具：CAM、Grad-CAM、Grad-CAM++系列 
 """
 from .heatmap import HeatMapTool

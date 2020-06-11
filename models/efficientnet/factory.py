@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File factory.py
-@author: ZhengYuwei
+
 EfficientNet系列的工厂脚本 
 """
 from .efficientnet import EfficientNet

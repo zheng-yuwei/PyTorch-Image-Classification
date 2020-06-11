@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File distillation.py
-@author: ZhengYuwei
+
 使用模型进行推理，获取概率文件，由于后续的模型蒸馏
 """
 import os

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File confusion_matrix.py
-@author: ZhengYuwei
+
 混淆矩阵 
 """
 import os
@@ -12,7 +12,7 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
 
-def plot_confusion_matrix(y_true, y_pred, labels, title='Confusion_matrix', is_save=False):
+def plot_confusion_matrix(y_true, y_pred, labels, title='ConfusionMatrix', is_save=False):
     """ 绘制混淆矩阵
     :param y_true: 正确类别标签
     :param y_pred: 预测类别标签

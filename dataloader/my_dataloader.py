@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File my_dataloader.py
-@author: ZhengYuwei
+
 数据集加载
 """
 import os
@@ -24,9 +24,9 @@ from dataloader.enhancement import Rescale, MyAugment
 def load(args: argparse.Namespace, name='train') -> DataLoader:
     """
     加载数据集
-    @param args: 训练参数
-    @param name: 加载的数据集类型，(train, test, val)
-    @return: 返回DataLoader对象
+    :param args: 训练参数
+    :param name: 加载的数据集类型，(train, test, val)
+    :return: 返回DataLoader对象
     """
     names = ('train', 'test', 'val')
     assert name in names, f'Name of Data Set must be in {names}!'
@@ -57,9 +57,9 @@ class DataLoaderX(DataLoader):
     def normalize(images: torch.FloatTensor, args: argparse.Namespace) -> torch.FloatTensor:
         """
         图像标准化
-        @param images: 一批图像，NCHW
-        @param args: 超参
-        @return: 一批标准化后的图像, NCHW
+        :param images: 一批图像，NCHW
+        :param args: 超参
+        :return: 一批标准化后的图像, NCHW
         """
         if args.advprop:
             images = images * 2.0 - 1.0
@@ -73,8 +73,8 @@ class DataLoaderX(DataLoader):
             -> (torch.FloatTensor, torch.FloatTensor, list, torch.FloatTensor):
         """
         将图像、标签、路径、样本权重的列表，整理为批次形式
-        @param batch: （图像、标签、路径、样本权重）元组列表
-        @return: 图像批次tensor N3HW，标签批次tensor N 或 (N,num_classes)，路径批次list，样本权重批次tensor N
+        :param batch: （图像、标签、路径、样本权重）元组列表
+        :return: 图像批次tensor N3HW，标签批次tensor N 或 (N,num_classes)，路径批次list，样本权重批次tensor N
         """
         image_sequence = []
         target_sequence = []
@@ -101,8 +101,8 @@ class MyDatasetFolder(datasets.DatasetFolder):
     def __init__(self, root: str, args: argparse.Namespace):
         """
         自定义Dataset类，返回 图像，标签，路径，样本权重
-        @param root: 数据集的根目录
-        @param args: 超参设定
+        :param root: 数据集的根目录
+        :param args: 超参设定
         """
         super(MyDatasetFolder, self).__init__(root, self._get_loader(root, args),
                                               datasets.folder.IMG_EXTENSIONS,
@@ -126,8 +126,8 @@ class MyDatasetFolder(datasets.DatasetFolder):
     def __getitem__(self, index: int) -> (torch.FloatTensor, typing.Union[int, np.ndarray], str, float):
         """
         获取第index个训练样本，包含：图像，标签，路径，样本权重
-        @param index: 样本下标
-        @return: torch.float32的(3, H, W)数组，int或float32 np.ndarray类别数标签，str路径，float样本权重
+        :param index: 样本下标
+        :return: torch.float32的(3, H, W)数组，int或float32 np.ndarray类别数标签，str路径，float样本权重
         """
         path, target, weight = self.samples[index]
         sample = self.loader(path)
@@ -206,9 +206,9 @@ class MyDatasetFolder(datasets.DatasetFolder):
     def _get_loader(root: str, args: argparse.Namespace) -> typing.Callable[[str], torch.FloatTensor]:
         """
         获取图像加载及预处理器
-        @param root: 数据集根目录
-        @param args: 超参设置
-        @return: 图像加载及预处理器，输入图像路径，得到图像的torch.FloatTensor （3, H, W）
+        :param root: 数据集根目录
+        :param args: 超参设置
+        :return: 图像加载及预处理器，输入图像路径，得到图像的torch.FloatTensor （3, H, W）
         """
         logging.info(f'Using image size: {args.image_size}')
 

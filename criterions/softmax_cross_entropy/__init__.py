@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File __init__.py.py
-@author: ZhengYuwei
+
 softmax交叉熵损失函数及其变体 
 """
 from .basic_softmax import CrossEntropyLoss

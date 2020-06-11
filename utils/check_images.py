@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File check_images.py
-@author: ZhengYuwei
+
 检查指定文件夹下，图片的有效性
 """
 import logging

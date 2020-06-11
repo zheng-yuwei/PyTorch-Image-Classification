@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File main.py
-@author: ZhengYuwei
+
 总入口 
 """
 import os

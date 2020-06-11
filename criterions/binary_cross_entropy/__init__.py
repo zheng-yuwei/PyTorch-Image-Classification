@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File __init__.py.py
-@author: ZhengYuwei
+
 多标签二分类损失函数及其变体 
 """
 from .basic_bce import MultiLabelBCELoss

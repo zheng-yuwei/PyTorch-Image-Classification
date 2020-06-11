@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File make_curriculum.py
-@author: ZhengYuwei
+
 使用模型进行推理，获取课程文件，由于后续的课程学习
 """
 import os

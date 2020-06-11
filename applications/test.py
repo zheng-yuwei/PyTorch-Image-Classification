@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File test.py
-@author: ZhengYuwei
+
 模型测试脚本
 """
 import time

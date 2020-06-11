@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 File ghm_softmax.py
-@author: ZhengYuwei
+
 GHM加权的多分类交叉熵损失 GHMCELoss
 基于梯度密度的倒数对损失进行加权（密度越大，损失越小）的BCE损失
 """
+import argparse
+
 import torch
 
-from .basic_softmax import CrossEntropyLoss
+from criterions.softmax_cross_entropy.basic_softmax import CrossEntropyLoss
 
 
 class GHMCELoss(CrossEntropyLoss):
@@ -15,7 +17,7 @@ class GHMCELoss(CrossEntropyLoss):
     "Gradient Harmonized Single-stage Detector".
     https://arxiv.org/abs/1811.05181
     """
-    def __init__(self, args, bins: int = 30, momentum: float = 0.75):
+    def __init__(self, args: argparse.Namespace, bins: int = 30, momentum: float = 0.75):
         """ GHM多分类损失函数
         :param args: 训练超参
         :param bins: Number of the unit regions for distribution calculation.
@@ -36,10 +38,11 @@ class GHMCELoss(CrossEntropyLoss):
             if args.cuda:
                 self.acc_sum = self.acc_sum.cuda(args.gpu)
 
-    def get_weights(self, predictions: torch.FloatTensor, targets: torch.FloatTensor):
+    def get_weights(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """ 多分类交叉熵损失
         :param predictions: 预测的概率矩阵，(batch_size, label_num)
         :param targets: 解码后的多分类label概率矩阵，(batch_size, label_num)
+        :return: 与predictions同维度的权重矩阵，(batch_size, label_num)
         """
         edges = self.edges
         mmt = self.momentum
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     temp_args.cuda = False
     ghm_loss = GHMCELoss(temp_args)
 
-    loss_value = ghm_loss(inputs.sigmoid().detach(), real_targets)
+    loss_value = ghm_loss(inputs.sigmoid().detach(), real_targets, None)
     print(f'first loss: {loss_value}')
-    loss_value = ghm_loss(inputs.sigmoid().detach(), real_targets)
+    loss_value = ghm_loss(inputs.sigmoid().detach(), real_targets, None)
     print(f'first loss: {loss_value}')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File autoaugment.py
-@author: ZhengYuwei
+
 ref: https://github.com/DeepVoltaire/AutoAugment
 """
 import random

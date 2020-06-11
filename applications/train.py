@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File train.py
-@author: ZhengYuwei
+
 模型训练脚本
 """
 import time

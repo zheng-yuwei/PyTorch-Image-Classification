@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File factory.py
-@author: ZhengYuwei
+
 MobileNet v3的工厂函数 
 """
 import logging

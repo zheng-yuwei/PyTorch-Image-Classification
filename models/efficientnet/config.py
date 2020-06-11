@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File config.py
-@author: ZhengYuwei
+
 EfficientNet系列配置 
 """
 import re

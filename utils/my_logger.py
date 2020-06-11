@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File my_loggers.py
-@author: ZhengYuwei
+
 日志对应 
 """
 import logging

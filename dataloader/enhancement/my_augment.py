@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 File my_augment.py
-@author: ZhengYuwei
-自定义数据增强
+
+自定义数据增强，应用在单张图像上
 """
 import logging
 
@@ -71,8 +71,8 @@ class MyAugment:
     def __call__(self, img: np.ndarray) -> np.ndarray:
         """
         对cv2读取的单张BGR图像进行图像增强
-        @param img: cv2读取的bgr格式图像， (h, w, 3)
-        @return: 增强后的图像， (h, w, 3)
+        :param img: cv2读取的bgr格式图像， (h, w, 3)
+        :return: 增强后的图像， (h, w, 3)
         """
         image_aug = self.seq.augment_image(img)
         return image_aug

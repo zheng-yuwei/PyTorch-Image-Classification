@@ -6,10 +6,10 @@ import collections
 import math
 
 import torch
-from torch.optim import Optimizer
+from torch.optim.optimizer import Optimizer
 
 try: 
-    from tensorboardX import SummaryWriter
+    from torch.utils.tensorboard import SummaryWriter
 
     def log_lamb_rs(optimizer: Optimizer, event_writer: SummaryWriter, token_count: int):
         """Log a histogram of trust ratio scalars in across layers."""

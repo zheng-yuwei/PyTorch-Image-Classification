@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 File mixup.py
-@author: ZhengYuwei
+
+mixup数据增强，应用在整个批次上
 """
 import typing
 import argparse
@@ -15,7 +16,7 @@ class MixUp:
     def __init__(self, args: argparse.Namespace):
         """
         数据增强 mixup，ref: https://github.com/facebookresearch/mixup-cifar10
-        @param args: 超参
+        :param args: 超参
         """
         self.is_mixup = args.mixup
         self.mixup_ratio = args.mixup_ratio
@@ -27,9 +28,9 @@ class MixUp:
                 typing.Optional[torch.FloatTensor], float):
         """
         对图像和标签进行线性插值混合
-        @param inputs: 图像pytorch数组，NCHW
-        @param targets: 标签pytorch数组，(N,) 或 (N, num_classes)
-        @return: with or w/o mixup的 图像，标签1，标签2（没有mixup就为None），混合比例
+        :param inputs: 图像pytorch数组，NCHW
+        :param targets: 标签pytorch数组，(N,) 或 (N, num_classes)
+        :return: with or w/o mixup的 图像，标签1，标签2（没有mixup就为None），混合比例
         """
         if not self.is_mixup or np.random.rand() > self.mixup_ratio:
             return inputs, targets, None, 1.0

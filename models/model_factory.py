@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File model_factory.py
-@author: ZhengYuwei
+
 PyTorch官方提供的预定义模型及自定义模型 
 """
 import logging

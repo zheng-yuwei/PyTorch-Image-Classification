@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File __init__.py.py
-@author: ZhengYuwei
+
 图像预处理，数据加载等
 """
 from .enhancement import (

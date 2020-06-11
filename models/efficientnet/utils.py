@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File utils.py
-@author: ZhengYuwei
+
 EfficientNet工具 
 """
 import os

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File swa.py
-@author: ZhengYuwei
+
 随机权重平均 
 """
 from collections import defaultdict

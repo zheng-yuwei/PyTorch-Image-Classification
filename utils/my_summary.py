@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File my_summary.py
-@author: ZhengYuwei
+
 打印模型信息 
 """
 import datetime
@@ -237,6 +237,7 @@ def summary(size, channel, model, batch=1):
 
 if __name__ == '__main__':
     from torchvision.models import mobilenet_v2
+    logging.getLogger().setLevel(logging.INFO)
     CHANNELS = 3
     SIZE = [400, 224]
     mobilenet = mobilenet_v2(pretrained=False, num_classes=5)

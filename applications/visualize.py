@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 File visualize.py
-@author: ZhengYuwei
+
 使用CAM（class activaion mapping）进行可视化
 Learning Deep Features for Discriminative Localization
 ref: https://github.com/zhoubolei/CAM/blob/master/pytorch_CAM.py
 """
 import os
 import logging
+import argparse
 
 import cv2
 import numpy as np
@@ -18,10 +19,16 @@ from utils import HeatMapTool, CAM, GradCAM, GradCamPlusPlus
 
 
 class Visualize:
-    """ 获取average pooling层的激活输出，根据softmax的权重w加权，作为对应类别的激活图 """
 
     @staticmethod
-    def visualize(data_loader: DataLoader, model, args):
+    def visualize(data_loader: DataLoader, model: torch.nn.Module, args: argparse.Namespace):
+        """
+        获取最后一层卷积层激活函数后的激活输出，根据选取的可视化方法，可视化所有类别的激活图
+        efficientnet的最后一层卷积层激活函数输出模块名为 _swish_fc，如果要可视化其他模型，这里需要做对应修改
+        :param data_loader: 待可视化的数据集
+        :param model: 待可视化模型
+        :param args: 可视化超参
+        """
         model.eval()
         cam_inferences = []
         if args.visual_method in ('cam', 'all'):
@@ -56,7 +63,7 @@ class Visualize:
                 # cv2.waitKey(0)
 
     @staticmethod
-    def _assess(outputs, labels) -> (np.ndarray, np.ndarray, np.ndarray):
+    def _assess(outputs: torch.Tensor, labels: torch.Tensor) -> (np.ndarray, np.ndarray, np.ndarray):
         """ 评估输出是否预测对标签
         :param outputs: 模型输出
         :param labels: 标签

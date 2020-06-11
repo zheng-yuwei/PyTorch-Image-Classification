@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File config.py
-@author: ZhengYuwei
+
 配置文件 
 """
 import argparse

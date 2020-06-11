@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File mobilenetv3.py
-@author: ZhengYuwei
+
 Creates a MobileNetV3 Model as defined in:
 Searching for MobileNetV3
 arXiv preprint arXiv:1905.02244.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File efficientnet.py
-@author: ZhengYuwei
+
 """
 import typing
 from functools import partial

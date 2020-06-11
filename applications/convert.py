@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 """
 File convert.py
-@author: ZhengYuwei
+
 模型转换：转 torch.jit.script
 """
+import argparse
 import logging
+
 import torch
 
-def convert_to_jit(model, args):
+
+def convert_to_jit(model: torch.nn.Module, args: argparse.Namespace):
     """
     将模型转为JIT格式，利于部署
-    @param model: 待转格式模型
-    @param args: 转模型超参
+    :param model: 待转格式模型
+    :param args: 转模型超参
     """
     logging.info('Converting model ...')
     image_height, image_width = args.image_size

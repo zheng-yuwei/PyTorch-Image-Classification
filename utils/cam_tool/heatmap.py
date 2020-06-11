@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File heatmap.py
-@author: ZhengYuwei
+
 绘制热力图 
 """
 import cv2

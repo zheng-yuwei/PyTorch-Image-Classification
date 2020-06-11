@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File cam.py
-@author: ZhengYuwei
+
 CAM可视化 
 """
 import numpy as np

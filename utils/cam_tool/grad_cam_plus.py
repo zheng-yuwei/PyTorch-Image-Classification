@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 File grad_cam_plus.py
-@author: ZhengYuwei
+
 Grad-CAM++ 可视化
 """
 import numpy as np
+import torch
 
 from .grad_cam import GradCAM
 

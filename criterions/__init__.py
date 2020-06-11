@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 File __init__.py.py
-@author: ZhengYuwei
-损失函数 
+
+损失函数
+softmax_cross_entropy: 多分类交叉熵损失函数及其变种
+binary_cross_entropy： 多标签二分类损失函数及其变种
 """
 from .softmax_cross_entropy import (
     CrossEntropyLoss,

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 File multi_scale.py
-@author: ZhengYuwei
-将图像重新等比例伸缩到指定尺寸随机产生的随机尺寸，用于后续多尺度训练
+
+将图像重新等比例伸缩到指定尺寸随机产生的随机尺寸，用于后续多尺度训练，应用在整个批次上
 """
 import typing
 import logging
@@ -20,9 +20,9 @@ class MultiScale:
     def __init__(self, output_size: typing.Union[int, tuple, list], h_w_ratio: float = 1.8):
         """
         将图像伸缩到某一尺寸，尺寸是根据指定尺寸的正态分布随机生成的
-        @param output_size: 指定的基线尺寸， int 或 tuple，int则表示宽，长则根据h_w_ratio而计算
+        :param output_size: 指定的基线尺寸， int 或 tuple，int则表示宽，长则根据h_w_ratio而计算
                             如果是tuple，则代表 (H, W)，h_w_ratio依此计算
-        @param h_w_ratio: 长:宽
+        :param h_w_ratio: 长:宽
         """
         assert isinstance(output_size, (int, tuple, list))
         if isinstance(output_size, (tuple, list)):
@@ -42,8 +42,8 @@ class MultiScale:
     def __call__(self, images: torch.FloatTensor) -> torch.Tensor:
         """
         对一批图像进行等比例随机缩放
-        @param images: 一批图像, N3HW
-        @return: 等比例随机缩放后的一批图像
+        :param images: 一批图像, N3HW
+        :return: 等比例随机缩放后的一批图像
         """
         h, w = images.shape[2:4]
         # 随机生成rescale的目标尺寸

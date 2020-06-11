@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File components.py
-@author: ZhengYuwei
+
 EfficientNet网络的一些组件 
 """
 import math

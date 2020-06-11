@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 File rescale.py
-@author: ZhengYuwei
-将图像等比例伸缩到指定尺寸，空余部分pad 0
+
+将图像等比例伸缩到指定尺寸，空余部分pad 0，应用在单张图像上
 """
 import typing
 
@@ -17,7 +17,7 @@ class Rescale:
     def __init__(self, output_size: typing.Union[int, tuple, list]):
         """
         将图像等比例伸缩到指定尺寸，空余部分pad 0
-        @param output_size: 指定的等比例伸缩后的尺寸
+        :param output_size: 指定的等比例伸缩后的尺寸
         """
         assert isinstance(output_size, (int, tuple, list))
         if isinstance(output_size, int):
@@ -27,8 +27,8 @@ class Rescale:
     def __call__(self, image: np.ndarray) -> np.ndarray:
         """
         对cv2读取的单张BGR图像进行图像等比例伸缩，空余部分pad 0
-        @param image: cv2读取的bgr格式图像， (h, w, 3)
-        @return: 等比例伸缩后的图像， (h, w, 3)
+        :param image: cv2读取的bgr格式图像， (h, w, 3)
+        :return: 等比例伸缩后的图像， (h, w, 3)
         """
         h, w = image.shape[:2]
         target_h, target_w = self.output_size[0], self.output_size[1]

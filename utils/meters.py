@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 File meters.py
-@author: ZhengYuwei
+
 评估量：记录，打印 
 """
 import logging

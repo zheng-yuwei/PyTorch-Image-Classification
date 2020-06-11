@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 File main.py
-@author: ZhengYuwei
+
 图像识别分类器demo 
 """
+import typing
 from functools import partial
 
 import cv2
@@ -31,7 +32,7 @@ class Classifier:
                                  std=[0.229, 0.224, 0.225]),
         ])
 
-    def recognize(self, image) -> np.ndarray:
+    def recognize(self, image: np.ndarray) -> np.ndarray:
         """ 图像识别
         :param image: opencv bgr格式的numpy数组
         :return 概率最大的类别结果，每一类的概率
@@ -48,34 +49,44 @@ class Classifier:
 class Rescale:
     """ 将样本中图片按指定尺寸等比例缩放 """
 
-    def __init__(self, output_size, padding_value=None):
-        """ 将样本中图片按指定尺寸等比例缩放
-        :param output_size: 要求的输出尺寸. 如果是tuple, 输出和output_size匹配。
-                            如果是int, 图片的短边是output_size，长边按比例缩放。
+    def __init__(self, output_size: typing.Union[int, tuple, list]):
+        """
+        将图像等比例伸缩到指定尺寸，空余部分pad 0
+        :param output_size: 指定的等比例伸缩后的尺寸
         """
         assert isinstance(output_size, (int, tuple, list))
         if isinstance(output_size, int):
             output_size = (output_size, output_size)
         self.output_size = output_size
 
-        self.padding_value = padding_value
-        if not self.padding_value:
-            self.padding_value = [0, 0, 0]
-
-    def __call__(self, image):
+    def __call__(self, image: np.ndarray) -> np.ndarray:
+        """
+        对cv2读取的单张BGR图像进行图像等比例伸缩，空余部分pad 0
+        :param image: cv2读取的bgr格式图像， (h, w, 3)
+        :return: 等比例伸缩后的图像， (h, w, 3)
+        """
         h, w = image.shape[:2]
         target_h, target_w = self.output_size[0], self.output_size[1]
         (new_h, new_w), (left, right, top, bottom) = self.get_rescale_size(h, w, target_h, target_w)
+
         # 等比例缩放
         image = cv2.resize(image, (new_w, new_h))
         # padding
         image = cv2.copyMakeBorder(image, top, bottom, left, right,
-                                   cv2.BORDER_CONSTANT, value=self.padding_value)
+                                   cv2.BORDER_CONSTANT, value=[0, 0, 0])
         return image
 
     @staticmethod
-    def get_rescale_size(src_h, src_w, target_h, target_w):
-        """ 从源尺寸等比例缩放到目标尺寸 """
+    def get_rescale_size(src_h: int, src_w: int, target_h: int, target_w: int) -> \
+            ((int, int), (int, int, int, int)):
+        """
+        按长边等比例缩放，短边pad 0
+        :param src_h: 源尺寸高
+        :param src_w: 源尺寸宽
+        :param target_h: 目标尺寸高
+        :param target_w: 目标尺寸宽
+        :return: （缩放后高，缩放后宽），（左边需要pad的宽度，右边需要pad的宽度，上边需要pad的宽度，下边需要pad的宽度）
+        """
         # 等比例缩放
         scale = max(src_h / target_h, src_w / target_w)
         new_h, new_w = int(src_h / scale), int(src_w / scale)
@@ -85,8 +96,8 @@ class Rescale:
             left_more_pad = 1
         if new_h % 2 != 0:
             top_more_pad = 1
-        left = right = (target_w - new_w)//2
-        top = bottom = (target_h - new_h)//2
+        left = right = (target_w - new_w) // 2
+        top = bottom = (target_h - new_h) // 2
         left += left_more_pad
         top += top_more_pad
         return (new_h, new_w), (left, right, top, bottom)
