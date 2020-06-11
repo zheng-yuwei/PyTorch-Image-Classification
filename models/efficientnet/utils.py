@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-File util.py
+File utils.py
 @author: ZhengYuwei
 EfficientNet工具 
 """
