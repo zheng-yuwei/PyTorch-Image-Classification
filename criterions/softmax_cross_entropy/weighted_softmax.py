@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-File weight_softmax.py
+File weighted_softmax.py
 @author: ZhengYuwei
 加权多分类交叉熵损失 WeightedCELoss，不同的误分类情况具有不同的损失权重
 """
