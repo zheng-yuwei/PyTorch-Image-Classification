@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-File weight_bce.py
+File weighted_bce.py
 @author: ZhengYuwei
 加权多标签二分类交叉熵损失 WeightedCELoss，不同的误分类情况具有不同的损失权重 
 """
