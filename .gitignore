@@ -130,6 +130,7 @@ dmypy.json
 
 .idea
 data/205087_450106_bundle_archive.zip
+logs/
 pretrained/*
 checkpoints/*
 !pretrained/README.md

@@ -2,7 +2,8 @@
 # CODE TAKEN FROM https://github.com/mgrankin/over9000
 ####
 
-import torch, math
+import math
+import torch
 from torch.optim.optimizer import Optimizer
 
 # RAdam + LARS

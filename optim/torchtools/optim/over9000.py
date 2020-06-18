@@ -2,9 +2,6 @@
 # CODE TAKEN FROM https://github.com/mgrankin/over9000
 ####
 
-import torch, math
-from torch.optim.optimizer import Optimizer
-import itertools as it
 from .lookahead import Lookahead
 from .ralamb import Ralamb
 

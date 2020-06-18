@@ -23,7 +23,8 @@ from dataloader.my_dataloader import DataLoaderX
 def test(test_loader: DataLoader, model: nn.Module, criterion: nn.Module,
          args: argparse.Namespace, is_confuse_matrix: bool = True) -> \
         (float, float, typing.List[typing.Tuple[(str, int, int, str)]]):
-    """ 验证集、测试集 评估
+    """
+    验证集、测试集 模型评估
     :param test_loader: 测试集DataLoader对象
     :param model: 待测试模型
     :param criterion: 损失函数
@@ -99,7 +100,8 @@ def test(test_loader: DataLoader, model: nn.Module, criterion: nn.Module,
 
 
 def gather_tensors_from_gpus(array: np.ndarray, args) -> np.ndarray:
-    """ 从多个GPU中汇总变量，并拼成新的tensor
+    """
+    从多个GPU中汇总变量，并拼成新的tensor
     :param array: 待汇总变量
     :param args: 测试超参
     :return 汇总并拼接后的数组
@@ -112,7 +114,8 @@ def gather_tensors_from_gpus(array: np.ndarray, args) -> np.ndarray:
 
 
 def gather_meters_from_gpus(meter: meters.AverageMeter, args) -> meters.AverageMeter:
-    """ 从多个GPU中汇总统计指标，并返回更新后的指标
+    """
+    从多个GPU中汇总统计指标，并返回更新后的指标
     :param meter: 待汇总统计指标
     :param args: 测试超参
     :return 汇总并更新后的指标
@@ -126,7 +129,8 @@ def gather_meters_from_gpus(meter: meters.AverageMeter, args) -> meters.AverageM
 
 
 def accuracy(output, target):
-    """ 计算准确率和预测结果
+    """
+    计算准确率和预测结果
     :param output: 分类预测
     :param target: 分类标签
     """

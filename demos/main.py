@@ -33,7 +33,8 @@ class Classifier:
         ])
 
     def recognize(self, image: np.ndarray) -> np.ndarray:
-        """ 图像识别
+        """
+        图像识别
         :param image: opencv bgr格式的numpy数组
         :return 概率最大的类别结果，每一类的概率
         """
@@ -106,7 +107,7 @@ class Rescale:
 if __name__ == '__main__':
     import os
     recognizer = Classifier()
-    root_dir = 'images'
+    root_dir = 'test_images'
     for image_name in os.listdir(root_dir):
         image_path = os.path.join(root_dir, image_name)
         image = cv2.imread(image_path)

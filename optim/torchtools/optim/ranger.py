@@ -3,10 +3,6 @@
 # Blog post: https://medium.com/@lessw/new-deep-learning-optimizer-ranger-synergistic-combination-of-radam-lookahead-for-the-best-of-2dc83f79a48d
 ####
 
-import math
-import torch
-from torch.optim.optimizer import Optimizer, required
-import itertools as it
 from .lookahead import Lookahead
 from .radam import RAdam
 

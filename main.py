@@ -73,7 +73,8 @@ def main():
 
 
 def main_worker(gpu, args):
-    """ 模型训练、测试、转JIT、蒸馏文件制作
+    """
+    模型训练、测试、转JIT、蒸馏文件制作
     :param gpu: 运行的gpu id
     :param args: 运行超参
     """
@@ -168,7 +169,7 @@ def main_worker(gpu, args):
         'ralamb': Ralamb, 'rangerlars': RangerLars,
         'novograd': Novograd,
     }
-    optimizer = opt_set[args.opt](model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    optimizer = opt_set[args.opt](model.parameters(), lr=args.lr)  # weight decay转移到train那里了
     # 随机均值平均优化器
     # from optim.swa import SWA
     # optimizer = SWA(optimizer, swa_start=10, swa_freq=5, swa_lr=0.05)

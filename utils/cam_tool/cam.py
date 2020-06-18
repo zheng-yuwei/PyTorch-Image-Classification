@@ -16,7 +16,8 @@ class CAM:
     """
 
     def __init__(self, model, module_name):
-        """ 在模型的指定模块上注册 forward hook
+        """
+        在模型的指定模块上注册 forward hook
         :param model: 模型
         :param module_name: 网络最后的卷积层模块的名称
         """
@@ -29,7 +30,8 @@ class CAM:
         self.hook = getattr(model, module_name).register_forward_hook(self._hook_fn)
 
     def _hook_fn(self, module, input, output):
-        """ hook函数，进行自定义操作
+        """
+        hook函数，进行自定义操作
         :param module: 整个模块，若需要可对内部层进行细致的操控
         :param input: 模块输入
         :param output: 模块输出
@@ -42,7 +44,8 @@ class CAM:
         self.hook.remove()
 
     def __call__(self, images, args) -> (torch.tensor, np.ndarray):
-        """ 计算CAM图
+        """
+        计算CAM图
         :param images: pytorch的tensor，[N,3,H,W]
         :param args: 超参，主要用cuda选项和预处理选项
         :return: 模型预测输出 (N, num_classes)，cam图 (N, num_classes, H_conv, W_conv)
@@ -56,7 +59,8 @@ class CAM:
         return outputs, cams
 
     def _calc_cam(self) -> np.ndarray:
-        """ 计算CAM，cam = sum_nc(w * features)
+        """
+        计算CAM，cam = sum_nc(w * features)
         :return batch中每个image的每个CAM，(N, num_classes, H, W)
         """
         bz, nc, h, w = self.features.shape  # batch的最后卷积层，(N, num_conv_channel, H, W)

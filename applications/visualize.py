@@ -64,7 +64,8 @@ class Visualize:
 
     @staticmethod
     def _assess(outputs: torch.Tensor, labels: torch.Tensor) -> (np.ndarray, np.ndarray, np.ndarray):
-        """ 评估输出是否预测对标签
+        """
+        评估输出是否预测对标签
         :param outputs: 模型输出
         :param labels: 标签
         :return 是否预测准确，标签，预测结果

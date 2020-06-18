@@ -5,7 +5,6 @@ File grad_cam_plus.py
 Grad-CAM++ 可视化
 """
 import numpy as np
-import torch
 
 from .grad_cam import GradCAM
 

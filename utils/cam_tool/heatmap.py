@@ -12,7 +12,8 @@ class HeatMapTool:
 
     @staticmethod
     def add_heat(image: np.ndarray, cams: np.ndarray) -> np.ndarray:
-        """ 给图像加heatmap
+        """
+        给图像加heatmap
         :param image: 单张图像，bgr uint8格式
         :param cams: 类激活图，灰度图，uint8格式
         :return: 原图 和 叠加了热力图图像 按宽方向拼接起来的图

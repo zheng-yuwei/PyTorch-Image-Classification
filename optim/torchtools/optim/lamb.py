@@ -3,7 +3,6 @@
 ####
 
 import collections
-import math
 
 import torch
 from torch.optim.optimizer import Optimizer
@@ -24,7 +23,7 @@ try:
         for k, v in results.items():
             event_writer.add_histogram(f'lamb/{k}', torch.tensor(v), token_count)
 except ModuleNotFoundError as e: 
-    print("To use this log_lamb_rs, please run 'pip install tensorboardx'. Also you must have Tensorboard running to see results")
+    print("To use this log_lamb_rs, please run 'pip install tensorboard'. Also you must have Tensorboard running to see results")
 
 class Lamb(Optimizer):
     r"""Implements Lamb algorithm.
@@ -34,7 +33,7 @@ class Lamb(Optimizer):
             parameter groups
         lr (float, optional): learning rate (default: 1e-3)
         betas (Tuple[float, float], optional): coefficients used for computing
-            running averages of gradient and its square (default: (0.9, 0.999))
+            running averages of gradients and its square (default: (0.9, 0.999))
         eps (float, optional): term added to the denominator to improve
             numerical stability (default: 1e-8)
         weight_decay (float, optional): weight decay (L2 penalty) (default: 0)

@@ -51,7 +51,8 @@ def drop_connect(inputs: torch.Tensor, p: float,
 
 
 def load_pretrained_weights(model, model_name, load_fc=True, adv_prop=False):
-    """ 加载预训练模型
+    """
+    加载预训练模型
     :param model: 模型
     :param model_name: 模型名称
     :param load_fc: 是否复用fc层

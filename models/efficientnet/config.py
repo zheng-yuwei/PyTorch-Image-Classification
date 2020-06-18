@@ -81,7 +81,8 @@ class EfficientNetConfig:
     @classmethod
     def get_search_params(cls, model_name: str) -> \
             typing.Tuple[float, float, typing.List[int], float]:
-        """ 获取对应EfficientNet结构搜索出来的超参
+        """
+        获取对应EfficientNet结构搜索出来的超参
         :param model_name:
         :return EfficientNet搜索超参
         """
@@ -93,7 +94,8 @@ class EfficientNetConfig:
             dropout_rate: float = 0.2, drop_connect_rate: float = 0.2,
             image_size: typing.List[int] = None, num_classes: int = 1000
     ) -> (typing.List[BlockArgs], GlobalParams):
-        """ 根据模型超参，构造 每个block的超参的列表、整体模型的超参
+        """
+        根据模型超参，构造 每个block的超参的列表、整体模型的超参
         :param width_coefficient: block宽度系数
         :param depth_coefficient: block深度系数
         :param dropout_rate: 整体网络fc全连接层的dropout系数
@@ -127,7 +129,8 @@ class BlockDecoder:
 
     @staticmethod
     def _decode_block_string(block_string: str) -> BlockArgs:
-        """ 解析block超参的字符串为BlockArgs变量
+        """
+        解析block超参的字符串为BlockArgs变量
         :param block_string: block超参的字符串
         :return
         """

@@ -14,7 +14,8 @@ __all__ = ['mobilenetv3_large', 'mobilenetv3_small']
 
 
 def load_pretrained(model, model_path, load_fc):
-    """ 加载预训练模型
+    """
+    加载预训练模型
     :param model: 模型
     :param model_path: 预训练模型文件所在路径
     :param load_fc: 是否加载前向全连接层

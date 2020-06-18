@@ -5,7 +5,7 @@
 - [x] PyTorch自带的网络：resnet, shufflenet, densenet, mobilenet, mnasnet等；
 - [x] MobileNet v3；
 - [x] EfficientNet系列；
-- [x] ResNeSt系列（实验达到各项STOA，但是论文被SR了）;
+- [x] ResNeSt系列;
 
 ---
 
@@ -90,9 +90,6 @@ sigmoid损失函数则是将多分类问题转化为多标签二分类问题，�
 - `--warmup`: warmup的迭代次数，训练前warmup个epoch会将 初始学习率*0.1 作为warmup期间的学习率；
 - `--epochs`: 训练的总迭代次数；
 - `--aug`: 是否使用数据增强，目前默认使用的是我自定义的数据增强方式：`dataloader/my_augment.py`；
-- `--distill`: 模型蒸馏（需要教师模型输出的概率文件)，默认 False，
-使用该模式训练前，需要先启用`--knowledge train --resume 好的模型`对训练集进行测试，生成概率文件作为教师模型的概率；
-概率文件形式为`data`路径下`distill*.txt`模式的文件，有多个文件会都使用，取均值作为教师模型的概率输出指导接下来训练的学生模型；
 - `--mixup`: 数据增强mixup，默认 False；
 - `--multi_scale`: 多尺度训练，默认 False；
 - `--resume`: 权重文件路径，模型文件将被加载以进行模型初始化，`--jit`和`--evaluation`时需要指定；
@@ -100,8 +97,11 @@ sigmoid损失函数则是将多分类问题转化为多标签二分类问题，�
 - `--evaluation`: 在测试集上进行模型评估；
 - `--knowledge`: 指定数据集，使用教师模型（配合resume选型指定）对该数据集进行预测，获取概率文件（知识)，
 生成的概率文件路径为`data/distill.txt`，同时生成原始概率`data/label.txt`;
+- `--distill`: 模型蒸馏（需要教师模型输出的概率文件)，默认 False，
+使用该模式训练前，需要先启用`--knowledge train --resume teacher.pth`对训练集进行测试，生成概率文件作为教师模型的概率；
+概率文件形式为`data`路径下`distill*.txt`模式的文件，有多个文件会都使用，取均值作为教师模型的概率输出指导接下来训练的学生模型；
 - `--visual_data`: 对指定数据集运行测试，并进行可视化；
-- `--visual_method`: 可视化方法，包含`cam`, `grad-cam`, `grad-camm++`三种；
+- `--visual_method`: 可视化方法，包含`cam`, `grad-cam`, `grad-camm++`三种，取值范围：['train', 'test', 'val']；
 - `--make_curriculum`: 制作课程学习的课程文件；
 - `--curriculum_thresholds`: 不同课程中样本的阈值；
 - `--curriculum_weights`: 不同课程中样本的损失函数权重；
@@ -127,63 +127,6 @@ BTW，在`models/efficientnet/model.py`中增加了`sample-free`的思想，目�
 cd demos
 python classifier.py
 ```
-
----
-
-## 模型对比
-
-| 模型                 | Params(M) | FLOPs(M) | mac-cpu前向（ms）| 准确率%（自己数据） |
-| ------------------- |:---------:|:--------:|:--------------:|:----------------:|
-| resnet18            | 11.18     | 1820.16  | 65             | -                |
-| resnet50            | 23.52     | 4109.68  | 160            | -                |
-| shufflenet_v2_x1_0  |  1.26     |  148.00  | 25             | -                |
-| shufflenet_v2_x2_0  |  5.36     |  588.43  | 58             | -                |
-| mobilenet_v2        |  2.23     |  306.18  | 52             | -                |
-| mobilenetv3_small   |  1.52     |   57.38  | 20             | -                |
-| mobilenetv3_large   |  4.21     |  222.04  | 50             | -                |
-| efficientnet_b0     |  4.00     |  405.31  | 135            | -                |
-| efficientnet_b4     | 18.04     | 4600.46  | 320            | -                |
-
-* 输入图像尺寸为[224, 224]；
-* 类别数为 6分类；
-* efficientnet的params和flops是预估的。
-
-### 训练策略
-
-| 损失函数              | 准确率%（自己实际数据） |
-| ------------------- |:-------------------:|
-| softmax             | 89.2                |
-| bce loss            | 89.0                |
-| threshold bce       | 88.95               |
-| ghm bce             | 89.3                |
-| weighted bce        | 89.1                |
-| ohm bce             | 89.1                |
-
-* EfficientNet b0，data augmentation，Adam step LR with warm-up
-* 单看整体指标可能不太好，以上某些类别的指标
-
-`Threshold Loss` 相比 `BCELoss` 指标相当，而`OHM Loss`略微上升，表明调整不同样本在优化过程的权重，可得到更好的训练结果。
-
-### 数据增强对比
-
-| 增强方式                     | 准确率%（自己实际数据） |
-| -------------------------- |:-------------------:|
-| baseline(bce+aug)          | 89.00               |
-| -pretrained                | 85.97               |
-| -aug                       | 87.76               |
-| +multi-scale               | 89.02               |
-| +mixup                     | 88.63               |
-| +distill from b0+ghm       | 88.55               |
-
-### 本库的一些Tips
-
-- 本库多GPU训练时，使用DDP进行分布式训练（无论是否单机）；
-若是多机，每台服务器都会保存日志和模型，由于同步模型初始参数、梯度、BN，所以模型应该是一致的；日志可能略有差异；
-- 在进行模型评估时，会使用all_together将不同GPU上的结果汇总，所以指标上应该是一致的；
-- Weighted Loss、GHM-C Loss效果有所提升好；ThresholdLoss需要调参；
-- multi-scale几乎无效果，且warm-up后准确率波动很大，可能因为学习率没调；
-- distill：使用GHM-C的b0作为teacher效果变差（和原label平均，效果差更多了），但若使用更好的teacher，则提升明显；
-- 我看github上mix-up有两种：image和target进行mix、image和loss进行mix，两种都变差，第一种效果差得很；
 
 ---
 

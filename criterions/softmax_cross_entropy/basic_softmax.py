@@ -16,7 +16,8 @@ class CrossEntropyLoss(nn.Module):
         super(CrossEntropyLoss, self).__init__()
 
     def forward(self, predictions: torch.Tensor, targets: torch.Tensor, weights: torch.Tensor) -> torch.Tensor:
-        """ 多分类交叉熵损失
+        """
+        多分类交叉熵损失
         :param predictions: 预测的logit矩阵，(batch_size, label_num)
         :param targets: 多分类label，如果是非one-hot形状(batch_size,)，则需要先解码
         :param weights: 每个样本的权重
@@ -34,7 +35,8 @@ class CrossEntropyLoss(nn.Module):
         return -torch.sum(targets * logged_x_pred * weights, dim=1).sum()
 
     def get_weights(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
-        """ 多标签二分类交叉熵损失的权重
+        """
+        多标签二分类交叉熵损失的权重
         :param predictions: 预测的概率矩阵，(batch_size, label_num)
         :param targets: 解码后的多标签二分类label概率矩阵，(batch_size, label_num)
         :return: 与predictions同维度的权重矩阵，(batch_size, label_num)
@@ -43,7 +45,8 @@ class CrossEntropyLoss(nn.Module):
 
     @staticmethod
     def identity_weights(predictions: torch.Tensor, _: torch.Tensor) -> torch.Tensor:
-        """ 多分类交叉熵损失的单位权重的dummy函数
+        """
+        多分类交叉熵损失的单位权重的dummy函数
         :param predictions: 预测的概率矩阵，(batch_size, label_num)
         :param _: 解码后的多标签二分类label概率矩阵，(batch_size, label_num)
         :return: 与predictions同维度的单位矩阵

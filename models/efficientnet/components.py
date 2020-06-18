@@ -19,7 +19,8 @@ class MBConvBlock(nn.Module):
     """ Mobile Inverted Residual Bottleneck Block """
 
     def __init__(self, block_args: BlockArgs, global_params: GlobalParams):
-        """ MobileNet v3的基础block
+        """
+        MobileNet v3的基础block
         :param block_args: block的超参
         :param global_params: 整体网络的超参
         """
@@ -62,7 +63,8 @@ class MBConvBlock(nn.Module):
         self._swish2 = Swish()
 
     def forward(self, inputs: torch.Tensor, drop_connect_rate: int = None) -> torch.Tensor:
-        """ MobileNet v3的基础block前向计算
+        """
+        MobileNet v3的基础block前向计算
         :param inputs: 输入向量
         :param drop_connect_rate: drop connect rate (float, between 0 and 1)
         :return: features of block

@@ -2,7 +2,7 @@
 """
 File make_curriculum.py
 
-使用模型进行推理，获取课程文件，由于后续的课程学习
+使用模型进行推理，获取课程文件，用于后续的课程学习
 """
 import os
 import logging
@@ -16,7 +16,8 @@ from .test import test
 
 def make_curriculum(curriculum_loader: DataLoader, model: nn.Module, criterion: nn.Module,
                     args: argparse.Namespace, is_confuse_matrix: bool = True):
-    """ 获取课程学习时，不同难易样本具有不同损失权重的课程文件
+    """
+    获取课程学习时，不同难易样本具有不同损失权重的课程文件
     :param curriculum_loader: 评估的数据集
     :param model: 制作课程的模型
     :param criterion: 评估的指标/损失函数

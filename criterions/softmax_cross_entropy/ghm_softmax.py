@@ -18,7 +18,8 @@ class GHMCELoss(CrossEntropyLoss):
     https://arxiv.org/abs/1811.05181
     """
     def __init__(self, args: argparse.Namespace, bins: int = 30, momentum: float = 0.75):
-        """ GHM多分类损失函数
+        """
+        GHM多分类损失函数
         :param args: 训练超参
         :param bins: Number of the unit regions for distribution calculation.
         :param momentum: The parameter for moving average.
@@ -39,7 +40,8 @@ class GHMCELoss(CrossEntropyLoss):
                 self.acc_sum = self.acc_sum.cuda(args.gpu)
 
     def get_weights(self, predictions: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
-        """ 多分类交叉熵损失
+        """
+        多分类交叉熵损失
         :param predictions: 预测的概率矩阵，(batch_size, label_num)
         :param targets: 解码后的多分类label概率矩阵，(batch_size, label_num)
         :return: 与predictions同维度的权重矩阵，(batch_size, label_num)

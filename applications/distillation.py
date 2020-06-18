@@ -2,7 +2,7 @@
 """
 File distillation.py
 
-使用模型进行推理，获取概率文件，由于后续的模型蒸馏
+使用模型进行推理，获取概率文件，用于后续的模型蒸馏
 """
 import os
 import logging
@@ -17,7 +17,8 @@ from .test import test
 
 def distill(distill_loader: DataLoader, model: nn.Module, criterion: nn.Module,
             args: argparse.Namespace, is_confuse_matrix: bool = True):
-    """ 获取模型蒸馏时，教师模型的评估的概率文件
+    """
+    获取模型蒸馏时，教师模型的评估的概率文件
     :param distill_loader: 评估的数据集
     :param model: 教师模型
     :param criterion: 评估的指标/损失函数

@@ -40,7 +40,8 @@ models_map = {
 
 
 def get_model(name, pretrained=False, **kwargs):
-    """ 获取指定名称的模型
+    """
+    获取指定名称的模型
     :param name: 指定模型名称
     :param pretrained: 是否加载预训练模型
     :param kwargs: num_classes等

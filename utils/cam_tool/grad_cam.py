@@ -50,7 +50,8 @@ class GradCAM(object):
             handle.remove()
 
     def __call__(self, images, args):
-        """ 计算Grad-CAM图
+        """
+        计算Grad-CAM图
         :param images: pytorch的tensor，[N,3,H,W]
         :param args: 超参，主要用cuda选项和预处理选项
         :return:

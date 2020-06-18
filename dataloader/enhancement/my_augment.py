@@ -28,8 +28,8 @@ class MyAugment:
                     mode=ia.ALL  # 定义填充图像外区域的方法
                 )),
 
-                # 使用0~2个方法进行图像增强
-                iaa.SomeOf((0, 4),
+                # 使用0~3个方法进行图像增强
+                iaa.SomeOf((0, 3),
                            [
                                iaa.Sometimes(0.8, iaa.OneOf([
                                    iaa.GaussianBlur((0, 2.0)),  # 高斯模糊
@@ -55,6 +55,28 @@ class MyAugment:
 
                                # 锐化
                                iaa.Sometimes(0.8, iaa.Sharpen(alpha=(0, 1.0), lightness=(0.75, 1.5))),
+
+                               # 整体亮度
+                               iaa.Sometimes(0.8, iaa.OneOf([
+                                   # 加性调整
+                                   iaa.AddToBrightness((-30, 30)),
+                                   # 线性调整
+                                   iaa.MultiplyBrightness((0.5, 1.5)),
+                                   # 加性 & 线性
+                                   iaa.MultiplyAndAddToBrightness(mul=(0.5, 1.5), add=(-30, 30)),
+                                ])),
+
+                               # 饱和度
+                               iaa.Sometimes(0.8, iaa.OneOf([
+                                   iaa.AddToSaturation((-75, 75)),
+                                   iaa.MultiplySaturation((0., 3.)),
+                               ])),
+
+                               # 色相
+                               iaa.Sometimes(0.8, iaa.OneOf([
+                                   iaa.AddToHue((-255, 255)),
+                                   iaa.MultiplyHue((-3.0, 3.0)),
+                               ])),
 
                                # 云雾
                                # iaa.Sometimes(0.3, iaa.Clouds()),

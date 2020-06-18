@@ -107,7 +107,8 @@ class EfficientNet(nn.Module):
 
     @classmethod
     def from_name(cls, model_name, **override_params):
-        """ 根据EfficientNet系列相应的名字构建模型
+        """
+        根据EfficientNet系列相应的名字构建模型
         :param model_name: EfficientNet系列相应的名字
         :param override_params: 模型的一些自定义超参
         """
@@ -117,7 +118,8 @@ class EfficientNet(nn.Module):
 
     @classmethod
     def from_pretrained(cls, model_name, num_classes=1000, in_channels=3, adv_prop=False):
-        """ 加载预训练模型
+        """
+        加载预训练模型
         :param model_name: 模型名称
         :param num_classes: 模型类别数
         :param in_channels: 输入图像通道数
@@ -133,7 +135,8 @@ class EfficientNet(nn.Module):
 
     @classmethod
     def get_image_size(cls, model_name):
-        """ 获取图像输入尺寸
+        """
+        获取图像输入尺寸
         :param model_name: 模型名称
         """
         EfficientNetConfig.check_model_name_is_valid(model_name)

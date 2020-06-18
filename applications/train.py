@@ -8,11 +8,13 @@ import time
 import shutil
 import logging
 
+import numpy as np
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from torch.optim.optimizer import Optimizer
+import apex
 from apex import amp
 
 from utils import AverageMeter, ProgressMeter
@@ -24,12 +26,15 @@ from dataloader.my_dataloader import DataLoaderX
 
 mix_up = None
 multi_scale = None
+bn_gammas = None
+net_weights = None  # 排除bias项的weight decay
 
 
 def train(train_loader: DataLoader, val_loader: DataLoader, model: nn.Module,
           criterion: nn.Module, optimizer: Optimizer,
           scheduler: torch.optim.lr_scheduler._LRScheduler, args):
-    """ 训练模型
+    """
+    训练模型
     :param train_loader: 训练集
     :param val_loader: 验证集
     :param model: 模型
@@ -38,12 +43,21 @@ def train(train_loader: DataLoader, val_loader: DataLoader, model: nn.Module,
     :param args: 训练超参
     """
     writer = SummaryWriter(args.logdir)
-    global mix_up, multi_scale
+    # writer.add_graph(model, (torch.rand(1, 3, args.image_size[0], args.image_size[1]),))
+    global mix_up, multi_scale, bn_gammas, net_weights
     if mix_up is None:
         mix_up = MixUp(args)
     if args.multi_scale and multi_scale is None:
         multi_scale = MultiScale(args.image_size)
-    # writer.add_graph(model, (torch.rand(1, 3, args.image_size[0], args.image_size[1]),))
+    if bn_gammas is None:
+        bn_gammas = [m.weight for m in model.modules()
+                     if isinstance(m, nn.BatchNorm2d) or
+                     isinstance(m, nn.SyncBatchNorm) or
+                     isinstance(m, apex.parallel.SyncBatchNorm)]
+
+    if net_weights is None:
+        net_weights = [param for name, param in model.named_parameters() if name[-4:] != 'bias']
+
     best_val_acc1 = 0
     learning_rate = 0
     for epoch in range(args.epochs):
@@ -53,8 +67,7 @@ def train(train_loader: DataLoader, val_loader: DataLoader, model: nn.Module,
         if isinstance(learning_rate, list):
             learning_rate = learning_rate[0]
         # 训练一个epoch，并在验证集上评估
-        train_loss, train_acc1 = train_epoch(train_loader, model, criterion,
-                                             optimizer, epoch, args)
+        train_loss, train_acc1 = train_epoch(train_loader, model, criterion, optimizer, epoch, args)
         val_acc1, val_loss, _ = test(val_loader, model, criterion, args, is_confuse_matrix=False)
         scheduler.step()
         # 保存当前及最好的acc@1的checkpoint
@@ -67,18 +80,26 @@ def train(train_loader: DataLoader, val_loader: DataLoader, model: nn.Module,
             # 'best_acc1': best_val_acc1,
             # 'optimizer': optimizer.state_dict(),
         }, is_best, args)
-        writer.add_scalar('learning rate', learning_rate, epoch)
+
+        all_bn_weight = []
+        for gamma in bn_gammas:
+            all_bn_weight.append(gamma.cpu().data.numpy())
+        writer.add_histogram('BN gamma', np.concatenate(all_bn_weight, axis=0), epoch)
+        # writer.add_scalars('Loss', {'Train': train_loss, 'Val': val_loss}, epoch)
+        # writer.add_scalars('Accuracy', {'Train': train_acc1, 'Val': val_acc1}, epoch)
         writer.add_scalar('Train/Loss', train_loss, epoch)
         writer.add_scalar('Train/Accuracy', train_acc1, epoch)
         writer.add_scalar('Val/Loss', val_loss, epoch)
         writer.add_scalar('Val/Accuracy', val_acc1, epoch)
+        writer.add_scalar('learning rate', learning_rate, epoch)
         writer.flush()
     writer.close()
     logging.info(f'Training Over with lr={learning_rate}~~')
 
 
 def train_epoch(train_loader, model, criterion, optimizer, epoch, args):
-    """ 训练模型一个epoch的数据
+    """
+    训练模型一个epoch的数据
     :param train_loader: 训练集
     :param model: 模型
     :param criterion: 损失函数
@@ -86,7 +107,7 @@ def train_epoch(train_loader, model, criterion, optimizer, epoch, args):
     :param epoch: 当前迭代次数
     :param args: 训练超参
     """
-    global mix_up, multi_scale
+    global mix_up, multi_scale, bn_gammas, net_weights
     batch_time = AverageMeter('Time', ':6.3f')
     data_time = AverageMeter('Data', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
@@ -120,17 +141,24 @@ def train_epoch(train_loader, model, criterion, optimizer, epoch, args):
             loss = mix_rate * loss + (1.0 - mix_rate) * criterion(output, targets2, weights)
             if mix_rate < 0.5:
                 targets1 = targets2
+
         optimizer.zero_grad()
         if args.cuda:
             with amp.scale_loss(loss, optimizer) as scaled_loss:
                 scaled_loss.backward()
         else:
             loss.backward()
+
         # network slimming
         if args.sparsity:
-            for m in model.modules():
-                if isinstance(m, nn.BatchNorm2d):
-                    m.weight.grad.data.add_(args.slim * torch.sign(m.weight.data))
+            for gamma in bn_gammas:
+                gamma.data.add_(-torch.sign(gamma.data),
+                                alpha=args.slim * optimizer.param_groups[0]['lr'])
+        # weight decay
+        for param in net_weights:
+            param.data.add_(-param.data,
+                            alpha=args.weight_decay * optimizer.param_groups[0]['lr'])
+
         optimizer.step()
 
         # 更新度量
@@ -147,7 +175,8 @@ def train_epoch(train_loader, model, criterion, optimizer, epoch, args):
 
 
 def accuracy(output, target):
-    """ 计算准确率和预测结果
+    """
+    计算准确率和预测结果
     :param output: 分类预测
     :param target: 分类标签
     """
@@ -160,7 +189,8 @@ def accuracy(output, target):
 
 
 def save_checkpoint(state, is_best, args, filename='checkpoints/checkpoint_{}.pth'):
-    """ 保存模型
+    """
+    保存模型
     :param state: 模型状态
     :param is_best: 模型是否当前测试集准确率最高
     :param args: 训练超参

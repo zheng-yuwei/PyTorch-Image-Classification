@@ -11,7 +11,8 @@ from PIL import Image
 
 
 def check(image_paths):
-    """ 检查图像文件是否可读、可用有效
+    """
+    检查图像文件是否可读、可用有效
     :param image_paths: 图像文件所在路径
     """
     bad_paths = list()
@@ -25,7 +26,8 @@ def check(image_paths):
 
 
 def check_set(set_dir):
-    """ 检查整个图像数据集中的图像文件是否可读有效
+    """
+    检查整个图像数据集中的图像文件是否可读有效
     :param set_dir: 图像数据集文件夹路径
     """
     for mid_dir in os.listdir(set_dir):
