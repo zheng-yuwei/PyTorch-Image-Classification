@@ -22,6 +22,9 @@ def convert_to_jit(model: torch.nn.Module, args: argparse.Namespace):
     model.eval()
     rand_image = torch.rand(1, 3, image_height, image_width)
     with torch.no_grad():
+        with torch.autograd.profiler.profile(use_cuda=args.cuda) as prof:
+            model(rand_image)
+        logging.info(prof)
         torch_model = torch.jit.trace(model, (rand_image,))
         torch_model.save(f'checkpoints/jit_{args.arch}.pt')
     logging.info('Save with jit script mode over ~ ')
