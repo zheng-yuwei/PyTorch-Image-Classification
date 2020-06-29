@@ -10,3 +10,4 @@ seaborn==0.10.1
 scikit-learn==0.23.1
 apex==0.1
 tensorboard==2.2.2
+git+https://github.com/szagoruyko/pytorchviz
