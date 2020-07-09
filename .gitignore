@@ -128,6 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+.DS_Store
 .idea
 data/205087_450106_bundle_archive.zip
 logs/
