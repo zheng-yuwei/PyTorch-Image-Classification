@@ -52,8 +52,8 @@ parser.add_argument('--lr_steps', '--lr_steps', default=None, type=float, nargs=
                     help='初始学习率每次衰减的epoch数，如[10, 20]表示在10 epoch衰减，20应该是结束epoch，'
                          '默认：将总epoch分为5段', dest='lr_steps')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M', help='学习率动量')
-parser.add_argument('--wd', '--weight-decay', default=5e-3, type=float, metavar='W',
-                    help='网络权重衰减正则项，默认: 5e-3', dest='weight_decay')
+parser.add_argument('--wd', '--weight-decay', default=5e-4, type=float, metavar='W',
+                    help='网络权重衰减正则项，默认: 5e-4', dest='weight_decay')
 parser.add_argument('--warmup', default=5, type=int, metavar='W', help='warm-up迭代数')
 parser.add_argument('-p', '--print-freq', default=50, type=int, metavar='N',
                     help='训练过程中的信息打印，每隔多少个batch打印一次，默认: 50')
@@ -90,8 +90,8 @@ parser.add_argument('--multi_scale', default=False, dest='multi_scale', action='
 
 parser.add_argument('--sparsity', default=False, dest='sparsity', action='store_true',
                     help='是否使用network slimming训练稀疏网络，默认 False')
-parser.add_argument('--slim', default=5.e-2, type=float, dest='slim',
-                    help='network slimming中BN gamma的权重衰减系数，默认 5.e-2)')
+parser.add_argument('--slim', default=5.e-4, type=float, dest='slim',
+                    help='network slimming中BN gamma的权重衰减系数，默认 5.e-4)')
 
 # 其他策略的参数设置
 parser.add_argument('-e', '--evaluate', dest='evaluate', default=False, action='store_true',
