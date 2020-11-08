@@ -101,7 +101,7 @@ sigmoid损失函数则是将多分类问题转化为多标签二分类问题，�
 使用该模式训练前，需要先启用`--knowledge train --resume teacher.pth`对训练集进行测试，生成概率文件作为教师模型的概率；
 概率文件形式为`data`路径下`distill*.txt`模式的文件，有多个文件会都使用，取均值作为教师模型的概率输出指导接下来训练的学生模型；
 - `--visual_data`: 对指定数据集运行测试，并进行可视化；
-- `--visual_method`: 可视化方法，包含`cam`, `grad-cam`, `grad-camm++`三种，取值范围：['train', 'test', 'val']；
+- `--visual_method`: 可视化方法，包含`cam`, `grad-cam`, `grad-camm++`三种；
 - `--make_curriculum`: 制作课程学习的课程文件；
 - `--curriculum_thresholds`: 不同课程中样本的阈值；
 - `--curriculum_weights`: 不同课程中样本的损失函数权重；
